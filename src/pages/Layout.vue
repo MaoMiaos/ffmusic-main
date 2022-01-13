@@ -12,7 +12,25 @@
         }}</q-avatar>
       </q-toolbar>
     </q-header>
+
     <q-drawer v-model="leftDrawerOpen" show-if-above side="left" bordered>
+      <q-list padding class="text-primary">
+        <q-item
+          clickable
+          v-ripple
+          active-class="my-menu-link"
+          v-for="item in menusRoutes"
+          :key="item.meta.title"
+          :active="item.name === route.name"
+          :to="item.path"
+        >
+          <q-item-section avatar>
+            <q-icon :name="item.meta.icon" />
+          </q-item-section>
+
+          <q-item-section>{{ item.meta.title }}</q-item-section>
+        </q-item>
+      </q-list>
       <!-- drawer content -->
     </q-drawer>
 
@@ -25,6 +43,8 @@
 <script>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import { menusRoutes } from '../router/index.js';
+import { useRoute } from 'vue-router';
 
 export default {
   name: 'Layout',
@@ -32,6 +52,10 @@ export default {
     const leftDrawerOpen = ref(false);
 
     const store = useStore();
+
+    const route = useRoute();
+
+    console.log(route, menusRoutes);
     return {
       nicknameFirstWord: computed(
         () => store.getters['user/nicknameFirstWord']
@@ -39,10 +63,16 @@ export default {
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
-      }
+      },
+      menusRoutes,
+      route
     };
   }
 };
 </script>
 
-<style scoped></style>
+<style lang="sass">
+.my-menu-link
+  color: white
+  background: #F2C037
+</style>
