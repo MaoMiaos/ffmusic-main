@@ -20,7 +20,7 @@ const routes = [
   {
     path: '/',
     component: Layout,
-    redirect: 'index',
+    redirect: 'dashboard',
     children: menusRoutes
   },
   {

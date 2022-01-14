@@ -16,7 +16,7 @@ const myApp = createApp(App);
 
 myApp.use(router);
 myApp.use(store);
-if (process.env.NODE_ENV == 'development') {
+if (process.env.NODE_ENV === 'development') {
   myApp.config.devtools = true;
 }
 myApp.use(Quasar, {
