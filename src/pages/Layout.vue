@@ -7,9 +7,16 @@
         <q-toolbar-title> ffMusic </q-toolbar-title>
 
         <q-space />
-        <q-avatar color="teal" text-color="white">{{
-          nicknameFirstWord
-        }}</q-avatar>
+        <q-avatar color="teal" text-color="white"
+          >{{ nicknameFirstWord }}
+          <q-menu fit>
+            <q-list style="min-width: 100px">
+              <q-item clickable v-close-popup @click="logout">
+                <q-item-section>退出</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-avatar>
       </q-toolbar>
     </q-header>
 
@@ -43,36 +50,33 @@
 <script>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
-import { menusRoutes } from '../router/index.js';
 import { useRoute } from 'vue-router';
-
+import { menusRoutes } from '../router';
 export default {
   name: 'Layout',
   setup() {
     const leftDrawerOpen = ref(false);
-
     const store = useStore();
-
     const route = useRoute();
-
-    console.log(route, menusRoutes);
     return {
       nicknameFirstWord: computed(
         () => store.getters['user/nicknameFirstWord']
       ),
+      menusRoutes,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
-      menusRoutes,
-      route
+      route,
+      logout: () =>
+        store.dispatch('user/logout').then(() => window.location.reload())
     };
   }
 };
 </script>
 
 <style lang="sass">
-.my-menu-link
-  color: white
+.menu-active
+  color: white !important
   background: #F2C037
 </style>

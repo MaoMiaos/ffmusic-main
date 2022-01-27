@@ -39,7 +39,7 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
-
+import { useQuasar } from 'quasar';
 export default {
   name: 'Login',
   setup() {
@@ -49,9 +49,12 @@ export default {
     const store = useStore();
     const router = useRouter();
     const route = useRoute();
+    const $q = useQuasar();
     const onSubmit = (username, password) => {
-      store.dispatch('user/login', { username, password }).then(res => {
-        router.push({ path: route.query.redirect || '/' });
+      store.dispatch('user/login', { username, password }).then(() => {
+        store.dispatch('user/fetchCurrentUser').then(() => {
+          router.push({ path: route.query.redirect || '/' });
+        });
       });
     };
     return {
@@ -72,7 +75,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   .login-form-content {
     .title {
       font-size: 40px;

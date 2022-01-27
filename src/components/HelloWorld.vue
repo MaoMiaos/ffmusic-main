@@ -1,25 +1,25 @@
 <script setup>
-import { ref } from 'vue'
-import {sayHello} from "../api/hello";
+import { ref } from 'vue';
+import { sayHello } from '../api/hello';
 
-const message = ref("ff音乐")
-const count = ref(0)
-const hello = () =>{
-  sayHello().then(res=>{
-    if(res.status !== 200){
-      alert("Error")
+const message = ref('ff音乐');
+const count = ref(0);
+const hello = () => {
+  sayHello().then(res => {
+    if (res.status !== 200) {
+      alert('Error');
     }
     console.log(res.data);
     message.value = res.data;
-  })
-}
+  });
+};
 </script>
 <template>
-  <h1>{{message}}</h1>
+  <h1>{{ message }}</h1>
   <div class="button-container">
-    <q-btn color="primary"  @click="count++">点击次数{{count}}</q-btn>
-    <br><br>
-    <q-btn color="primary"  @click="hello">请求接口</q-btn>
+    <q-btn color="primary" @click="count++">点击次数{{ count }}</q-btn>
+    <br /><br />
+    <q-btn color="primary" @click="hello">请求接口</q-btn>
   </div>
   <div class="q-pa-md q-gutter-y-md column items-start">
     <q-btn-group push>
@@ -29,7 +29,14 @@ const hello = () =>{
     </q-btn-group>
 
     <q-btn-group push>
-      <q-btn color="yellow" glossy text-color="black" push label="First" icon="verified_user" />
+      <q-btn
+        color="yellow"
+        glossy
+        text-color="black"
+        push
+        label="First"
+        icon="verified_user"
+      />
       <q-btn color="amber" glossy text-color="black" push label="Second" />
       <q-btn color="orange" glossy text-color="black" push label="Third" />
     </q-btn-group>
