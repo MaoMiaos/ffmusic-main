@@ -13,7 +13,7 @@ const state = () => ({
   token: getToken(),
   currentUser: getCurrentUser()
 });
-
+//对登陆后nickname首字母获取getter改造
 const getters = {
   nicknameFirstWord: state => {
     return state.currentUser && state.currentUser.nickname

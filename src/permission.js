@@ -4,7 +4,7 @@ import { getCurrentUser, getToken } from './utils/auth.js';
 import { Notify } from 'quasar';
 
 const whiteList = ['/login', '/403', '/404'];
-
+//在router守卫中增加上下文用户的角色判断，若为 ROLE_ADMIN继续访问；若不是提示错误并清空登录信息
 router.beforeEach(async (to, from, next) => {
   const hasToken = getToken();
 

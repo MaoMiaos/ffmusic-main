@@ -1,34 +1,28 @@
-import { computed, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { search } from '../api/user.js';
-import { onMounted } from 'vue';
 
-export const useUserSearch = () => {
+export const useUserSearch = pagination => {
   const data = ref([]);
-
-  const pagination = ref({
-    page: 2,
-    rowsPerPage: 10,
-    rowsNumber: 0
-    // rowsNumber: xx if getting data from a server
-  });
-
-  const pagesNumber = computed(() =>
-    Math.ceil(data.value.length / pagination.value.rowsPerPage)
-  );
 
   const fetchData = () => {
     search({ page: 0 }).then(res => {
-      data.value = data.value.concat(res.content);
-      pagination.value.page = res.number + 1;
-      pagination.value.rowsPerPage = res.size;
-      pagination.value.rowsNumber = res.totalElements;
+      console.log(pagination);
+      const pageble = {
+        page: pagination.value.page - 1,
+        size: pagination.value.rowsPerPage
+      };
+
+      search(pageble).then(res => {
+        data.value = res.content;
+        pagination.value.page = res.number - 1;
+        pagination.value.rowsNumber = res.totalElement;
+      });
     });
   };
   //注入mount事件
   onMounted(fetchData);
   return {
     data,
-    pagesNumber,
     pagination,
     fetchData
   };

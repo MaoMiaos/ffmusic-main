@@ -1,18 +1,16 @@
 <template>
   <div class="page">
     <div class="q-mt-md q-mb-md">
-      <q-btn color="primary" label="添加用户" @click="toggleDialog" />
+      <q-btn color="primary" label="添加用户" @click="showDialog" />
     </div>
-    <q-table :rows="data" :columns="columns" row-key="name" hide-pagination />
-    <div class="row justify-center q-mt-md">
-      <q-pagination
-        v-model="pagination.page"
-        color="grey-8"
-        :max="pagesNumber"
-        size="sm"
-      />
-    </div>
-    <create-dialog v-if="showDialog" @hide="toggleDialog" />
+    <q-table
+      :rows="data"
+      :columns="columns"
+      row-key="name"
+      @request="fetchData"
+      v-model:pagination="pagination"
+    />
+    <create-dialog v-if="show" @hide="hideDialog" @create-success="fetchData" />
   </div>
 </template>
 
@@ -39,10 +37,13 @@ const columns = [
     label: '昵称'
   }
 ];
-const showDialog = ref(false);
-const { UserSearch } = useUserSearch();
-const { toggleDialog } = usetoggleDiaglog(showDialog);
-const { data, pagination, pagesNumber, fetchData } = useUserSearch();
+const show = ref(false);
+const { showDialog, hideDialog } = usetoggleDiaglog(show);
+const pagination = ref({
+  page: 1,
+  rowsPerPage: 10
+});
+const { data, fetchData } = useUserSearch(pagination);
 </script>
 
 <style scoped></style>

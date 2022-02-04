@@ -9,7 +9,5 @@ export const me = () => {
 };
 
 export const create = user => {
-  return post('/users', user).then(res => {
-    console.log(res);
-  });
+  return post('/users', user).then(res => {});
 };

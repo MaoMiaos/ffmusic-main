@@ -1,8 +1,8 @@
 <template>
-  <q-dialog v-model="show" persistent @hide="$emit('hide')">
+  <q-dialog v-model="show" persistent>
     <q-card style="min-width: 350px; height: 300px">
       <q-card-section>
-        <div class="text-h6">创建新用户</div>
+        <div class="text-h6">添加用户</div>
       </q-card-section>
 
       <q-card-section class="q-pt-none">
@@ -20,17 +20,13 @@
           v-model="password"
           label="密码"
           autofocus
+          type="password"
           @keyup.enter="show = false"
         />
       </q-card-section>
 
       <q-card-actions align="right" class="text-primary">
-        <q-btn
-          flat
-          label="确认"
-          color="primary"
-          @click="createUser(username, password)"
-        />
+        <q-btn label="确认" color="primary" @click="createUser" />
         <q-btn flat label="取消" v-close-popup />
       </q-card-actions>
     </q-card>
@@ -40,10 +36,22 @@
 <script setup>
 const username = ref('');
 const password = ref('');
-import { ref } from 'vue';
-import { useCreateUser } from '../../composables/useCreateUser.js';
 const show = ref(true);
-const { createUser } = useCreateUser(username, password);
+import { ref } from 'vue';
+import { create } from '../../api/user.js';
+import { Notify } from 'quasar';
+const emmit = defineEmits(['create-success']);
+const createUser = () => {
+  create({ username: username.value, password: password.value }).then(res => {
+    show.value = false;
+    Notify.create({
+      type: 'positive',
+      message: '创建成功',
+      position: 'top'
+    });
+    emmit('create-success');
+  });
+};
 </script>
 
 <style scoped></style>

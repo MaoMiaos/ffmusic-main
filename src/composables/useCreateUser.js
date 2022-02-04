@@ -1,10 +1,11 @@
 import { create } from '../api/user.js';
-import { ref } from 'vue';
 
-export const useCreateUser = () => {
-  const createUser = (username, password) => {
+export const useCreateUser = (username, password) => {
+  const createUser = () => {
     console.log(username, password);
-    create({ username, password }).then(res => {});
+    create({ username: username.value, password: password.value }).then(res => {
+      console.log(res);
+    });
   };
   return { createUser };
 };
