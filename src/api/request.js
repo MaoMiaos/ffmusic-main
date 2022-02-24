@@ -1,7 +1,6 @@
 import axios from 'axios';
 import store from '../store';
-import { Notify } from 'quasar';
-import { evaEdit } from '@quasar/extras/eva-icons';
+import notify from '../utils/notify.js';
 const baseURL = import.meta.env.VITE_API_HOST;
 const tokenPrefix = 'Bearer ';
 const instance = axios.create({
@@ -43,18 +42,10 @@ const handleErrorResponse = response => {
   }
   if (response.data instanceof Array) {
     response.data.forEach(item => {
-      Notify.create({
-        type: 'negative',
-        message: item.message,
-        position: 'top'
-      });
+      notify.error(item.message);
     });
   } else {
-    Notify.create({
-      type: 'negative',
-      message: response.data.message,
-      position: 'top'
-    });
+    notify.error(response.data.message);
   }
 };
 

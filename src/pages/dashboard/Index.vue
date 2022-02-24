@@ -1,19 +1,6 @@
 <template>
-  <div>欢迎光临 {{ nickname }}</div>
+  <div class="page"></div>
 </template>
 
-<script>
-import { useStore } from 'vuex';
-import { computed } from 'vue';
-export default {
-  name: 'Index',
-  setup() {
-    const store = useStore();
-    return {
-      nickname: computed(() => store.state.user.currentUser.nickname)
-    };
-  }
-};
-</script>
-
+<script></script>
 <style scoped></style>

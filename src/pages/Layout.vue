@@ -25,7 +25,7 @@
         <q-item
           clickable
           v-ripple
-          active-class="my-menu-link"
+          active-class="menu-active text-white"
           v-for="item in menusRoutes"
           :key="item.meta.title"
           :active="item.name === route.name"
